@@ -8,8 +8,8 @@
   "scripts": {
     "build": "yarn build-html && yarn build-css && yarn build-ts",
     "build-ts": "esbuild src/index.ts --bundle --outfile=dist/index.js",
-    "build-html": "cp src/index.html dist/index.html",
-    "build-css": "cp src/style.css dist/style.css",
+    "build-html": "mkdir -p dist && cp src/index.html dist/index.html",
+    "build-css": "mkdir -p dist && cp src/style.css dist/style.css",
     "start": "yarn build --servedir=dist"
   },
   "dependencies": {
