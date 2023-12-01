@@ -1,0 +1,90 @@
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, "system-ui", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+}
+
+#app {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+header {
+    padding: 1em 2em;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+main {
+    padding: 1em 2em;
+}
+
+h1 {
+    margin: 1em 0 .2em 0;
+}
+
+.contract-form {
+    margin-bottom: 3em;
+}
+
+.contract-form[disabled] {
+    opacity: .5;
+    pointer-events: none;
+}
+
+.form-row {
+    display: flex;
+    margin: 1em 0;
+}
+
+.form-label {
+    width: 30%;
+    padding-right: 1em;
+}
+
+.form-input {
+    flex-grow: 1;
+}
+
+.form-row select,
+.form-row textarea,
+.form-row button,
+.form-row input {
+    box-sizing: border-box;
+    padding: 4px 8px;
+    width: 100%;
+}
+
+.form-row button {
+    padding: 10px;
+    text-align: center;
+}
+
+.desc {
+    font-size: .8em;
+    line-height: 1.4em;
+    color: gray;
+    margin: .5em 0;
+}
+
+.error {
+    margin: 1em 0;
+    color: red;
+}
+
+.error:empty {
+    display: none;
+}
+
+.result {
+    margin: 1em 0;
+    color: green;
+}
+
+.result:empty {
+    display: none;
+}

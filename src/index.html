@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+	<title>Splitters</title>
+</head>
+
+<body>
+	<div id="app">
+		<header>
+			<div class="modal-button">
+				<w3m-button />
+			</div>
+			<div class="modal-button">
+				<w3m-network-button />
+			</div>
+		</header>
+		<main>
+			<h1>Wrapper contract</h1>
+			<div class="desc">
+				The contract that is specified as the rewardAddress of a node operator. Wraps stETH rewards to wstETH and sends
+				it to the rewards splitter contract. The contract may take a fee on rewards, so it's important to choose
+				the right cluster type. The amount of fee and the fee recipient will depend on this.
+			</div>
+			<form class="contract-form" id="cluster-form-wrapper">
+				<div class="form-row">
+					<div class="form-label">
+						<label for="cluster-type">Cluster type</label>
+					</div>
+					<div class="form-input">
+						<select name="cluster-type" id="cluster-type">
+							<option value="ssv">SSV</option>
+							<option value="obol">Obol</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-label">
+						<label for="split-address">
+							Split address
+						</label>
+					</div>
+					<div class="form-input">
+						<input type="text" name="split-address" id="split-address"
+							placeholder="0x0000000000000000000000000000000000000000">
+					</div>
+				</div>
+				<div class="error"></div>
+				<div class="result"></div>
+				<div class="form-row">
+					<button type="submit">Deploy contract</button>
+				</div>
+			</form>
+
+			<h1>Split contract</h1>
+			<div class="desc">
+				A contract that distributes rewards to participants. The shares among the participants will be divided evenly.
+				The controller address will be the address from which the deploy is performed, distributorFee will be 0.
+			</div>
+			<form class="contract-form" id="cluster-form-split">
+				<div class="form-row">
+					<div class="form-label">
+						<label for="cluster-type">
+							Participants addresses
+							<div class="desc">use a new line to separate the addresses</div>
+						</label>
+					</div>
+					<div class="form-input">
+						<textarea name="cluster-addresses" id="cluster-addresses" cols="30" rows="8" placeholder="0x0000000000000000000000000000000000000000
+0x0000000000000000000000000000000000000001
+0x0000000000000000000000000000000000000002"></textarea>
+					</div>
+				</div>
+				<div class="error"></div>
+				<div class="result"></div>
+				<div class="form-row">
+					<button type="submit">Deploy contract</button>
+				</div>
+			</form>
+		</main>
+	</div>
+
+	<script src="index.js"></script>
+</body>
+
+</html>
