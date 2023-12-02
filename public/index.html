@@ -21,9 +21,10 @@
 		<main>
 			<h1>0x split contract</h1>
 			<div class="desc">
-				A contract that distributes rewards to participants. The shares among the participants will be divided
-				evenly. The controller address will be the address from which the deploy is performed, distributorFee
-				will be 0.
+				<p>A contract that distributes rewards to participants. The shares among the participants will be
+					divided evenly. The controller address will be the address from which the deploy is performed,
+					distributorFee will be 0.</p>
+				<p>Connect with the multisig address to automatically fill the list of owners.</p>
 			</div>
 			<form class="contract-form" id="cluster-form-split">
 				<div class="form-row">
@@ -34,9 +35,8 @@
 						</label>
 					</div>
 					<div class="form-input">
-						<textarea name="cluster-addresses" id="cluster-addresses" cols="30" rows="8" placeholder="0x0000000000000000000000000000000000000000
-0x0000000000000000000000000000000000000001
-0x0000000000000000000000000000000000000002"></textarea>
+						<textarea name="cluster-addresses" id="cluster-addresses" cols="30" rows="8"
+							placeholder=""></textarea>
 					</div>
 				</div>
 				<div class="error"></div>
@@ -49,10 +49,10 @@
 			<h1>Wrapper contract <cite>(cluster reward address)<cite>
 			</h1>
 			<div class="desc">
-				The contract that is specified as the rewardAddress of a node operator. Wraps stETH rewards to wstETH
-				and sends
-				it to the rewards splitter contract. The contract may take a fee on rewards, so it's important to choose
-				the right cluster type. The amount of fee and the fee recipient will depend on this.
+				<p>The contract that is specified as the rewardAddress of a node operator. Wraps stETH rewards to wstETH
+					and sends it to the rewards splitter contract. The contract may take a fee on rewards, so it's
+					important to choose the right cluster type. The amount of fee and the fee recipient will depend on
+					this.</p>
 			</div>
 			<form class="contract-form" id="cluster-form-wrapper">
 				<div class="form-row">

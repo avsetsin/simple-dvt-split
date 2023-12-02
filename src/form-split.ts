@@ -2,6 +2,7 @@ import { Contract, ContractTransactionResponse, EventLog } from 'ethers';
 import { distributeEvenly, processAsyncForm, splitAccounts, validateAddress } from './utils';
 import { contracts } from './constants';
 import { clusterFormSplitElement, clusterAddressesElement, splitAddressElement } from './elements';
+import './gnosis-owners';
 
 const contractABI = [
   'function createSplit(address[],uint32[],uint32,address) returns (address)',
@@ -14,7 +15,8 @@ const handleSubmitSplit = (event) => {
   event.preventDefault();
 
   processAsyncForm(async ({ signer, chainId }) => {
-    const accounts = splitAccounts(clusterAddressesElement.value);
+    const rawAccounts = clusterAddressesElement.value || clusterAddressesElement.getAttribute('data-owners');
+    const accounts = splitAccounts(rawAccounts);
 
     accounts.map((address) => validateAddress(address));
 
