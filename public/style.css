@@ -26,7 +26,14 @@ main {
 }
 
 h1 {
-  margin: 1em 0 0.2em 0;
+  margin: 1em 0 0.4em 0;
+}
+
+h1 cite {
+  font-size: 0.6em;
+  font-weight: normal;
+  font-style: normal;
+  display: block;
 }
 
 .contract-form {
