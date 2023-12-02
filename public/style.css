@@ -105,19 +105,20 @@ h1 {
 }
 
 .error {
-  margin: 1em 0;
   color: red;
 }
 
-.error:empty {
-  display: none;
-}
-
 .result {
-  margin: 1em 0;
   color: green;
 }
 
-.result:empty {
+.result,
+.error {
+  margin: 1em 0;
+  word-wrap: break-word;
+}
+
+.result:empty,
+.error:empty {
   display: none;
 }
