@@ -1,15 +1,13 @@
 {
-  "name": "simple-dvt-splitters",
+  "name": "simple-dvt-split",
   "version": "1.0.0",
-  "main": "index.js",
-  "repository": "https://github.com/avsetsin/simple-dvt-splitters.git",
+  "repository": "https://github.com/avsetsin/simple-dvt-split.git",
   "author": "George <george.a@lido.fi>",
   "license": "MIT",
   "scripts": {
-    "build": "yarn build-html && yarn build-css && yarn build-ts",
+    "build": "yarn build-public && yarn build-ts",
     "build-ts": "esbuild src/index.ts --bundle --outfile=dist/index.js",
-    "build-html": "mkdir -p dist && cp src/index.html dist/index.html",
-    "build-css": "mkdir -p dist && cp src/style.css dist/style.css",
+    "build-public": "mkdir -p dist && cp public/* dist/",
     "start": "yarn build --servedir=dist"
   },
   "dependencies": {
