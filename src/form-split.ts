@@ -45,7 +45,7 @@ const handleSubmitSplit = (event) => {
       splitAddressElement.value = deployedContractAddress;
     }
 
-    return `Wrapper contract deployed: ${deployedContractAddress}`;
+    return `0x split contract deployed: ${deployedContractAddress}`;
   }, clusterFormSplitElement);
 };
 

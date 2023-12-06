@@ -25,7 +25,7 @@ const handleSubmitWrapper = (event: SubmitEvent) => {
 
     validateAddress(deployedContractAddress);
 
-    return `0x split contract deployed: ${deployedContractAddress}`;
+    return `Wrapper contract deployed: ${deployedContractAddress}`;
   }, clusterFormWrapperElement);
 };
 
