@@ -1,4 +1,4 @@
-import { Contract, ContractTransactionResponse, EventLog } from 'ethers';
+import { Contract, ContractTransactionResponse, EventLog, ZeroAddress } from 'ethers';
 import { distributeEvenly, processAsyncForm, splitAccounts, validateAddress } from './utils';
 import { contracts } from './constants';
 import { clusterFormSplitElement, clusterAddressesElement, splitAddressElement } from './elements';
@@ -15,7 +15,7 @@ const handleSubmitSplit = (event) => {
   event.preventDefault();
 
   processAsyncForm(async ({ signer, chainId }) => {
-    const rawAccounts = clusterAddressesElement.value || clusterAddressesElement.getAttribute('data-owners');
+    const rawAccounts = clusterAddressesElement.value || clusterAddressesElement.getAttribute('data-owners') || '';
     const accounts = splitAccounts(rawAccounts);
 
     accounts.map((address) => validateAddress(address));
@@ -26,7 +26,7 @@ const handleSubmitSplit = (event) => {
 
     const percentAllocations = distributeEvenly(Number(percentageScale), accounts.length);
     const distributorFee = 0;
-    const controller = signer.address;
+    const controller = ZeroAddress;
     const sortedAccounts = accounts.sort((a: string, b: string) => Number(BigInt(a) - BigInt(b)));
 
     const txResponse: ContractTransactionResponse = await splitFactoryContract.createSplit(
@@ -36,7 +36,7 @@ const handleSubmitSplit = (event) => {
       controller,
     );
     const txReceipt = await txResponse.wait();
-    const logs = txReceipt.logs as EventLog[];
+    const logs = txReceipt?.logs as EventLog[];
     const deployedContractAddress = logs[0]?.args[0];
 
     validateAddress(deployedContractAddress);

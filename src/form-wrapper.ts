@@ -20,7 +20,7 @@ const handleSubmitWrapper = (event: SubmitEvent) => {
     const wrapperFactoryContract = new Contract(factoryAddress, contractABI, signer);
     const txResponse: ContractTransactionResponse = await wrapperFactoryContract.createSplit(splitAddress);
     const txReceipt = await txResponse.wait();
-    const logs = txReceipt.logs as EventLog[];
+    const logs = txReceipt?.logs as EventLog[];
     const deployedContractAddress = logs[0]?.args[0];
 
     validateAddress(deployedContractAddress);
