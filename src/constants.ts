@@ -5,8 +5,8 @@ export const contracts = {
   },
   wrapperFactory: {
     1: {
-      obol: '0x0000000000000000000000000000000000000000',
-      ssv: '0x0000000000000000000000000000000000000000',
+      obol: '0xA9d94139A310150Ca1163b5E23f3E1dbb7D9E2A6',
+      ssv: '0x3df147bd18854bfa03291034666469237504d4ca',
     },
     17000: {
       obol: '0x934ec6b68ce7cc3b3e6106c686b5ad808ed26449',
