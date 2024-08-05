@@ -1,7 +1,8 @@
 import { BrowserProvider, Eip1193Provider, JsonRpcSigner, isAddress } from 'ethers';
 import { modal } from './modal';
-import { contracts, TREASURY_SHARE } from './constants';
+import { contracts, treasuryShareByProvider } from './constants';
 import { Contract } from 'ethers';
+import { superClusterTypeElement } from './elements';
 
 export const distributeEvenly = (total: number, participants: number): number[] => {
   if (participants <= 0) {
@@ -26,13 +27,14 @@ export const calcDistributionForRegularCluster = (accounts: string[], totalShare
 };
 
 export const calcDistributionForSuperCluster = (accounts: string[], totalShares: number, chainId: number) => {
-  const treasuryShares = TREASURY_SHARE;
-  const treasuryAddress = contracts.treasury[chainId];
-  const restShares = totalShares - treasuryShares;
+  const splitType = superClusterTypeElement.value;
+  validateSplitType(splitType, chainId);
 
-  if (!treasuryAddress) {
-    throw new Error('treasury address not found');
-  }
+  const treasuryShare = treasuryShareByProvider[splitType];
+  const treasuryAddress = contracts.treasury[chainId];
+  validateAddress(treasuryAddress);
+
+  const restShares = totalShares - treasuryShare;
 
   // distribute the rest of the shares evenly
   const percentAllocations = distributeEvenly(Number(restShares), accounts.length);
@@ -42,7 +44,7 @@ export const calcDistributionForSuperCluster = (accounts: string[], totalShares:
   const indexOfTreasury = sortedAccounts.indexOf(treasuryAddress);
 
   // add special allocation for treasury
-  percentAllocations.splice(indexOfTreasury, 0, treasuryShares);
+  percentAllocations.splice(indexOfTreasury, 0, treasuryShare);
 
   return [percentAllocations, sortedAccounts] as const;
 };

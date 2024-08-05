@@ -19,4 +19,7 @@ export const contracts = {
   },
 };
 
-export const TREASURY_SHARE = 285714;
+export const treasuryShareByProvider = {
+  obol: 285714,
+  ssv: 250000,
+};

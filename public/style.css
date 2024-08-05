@@ -80,6 +80,10 @@ h1 cite {
   margin: 1em 0;
 }
 
+.form-row-hidden {
+  display: none;
+}
+
 .form-label {
   width: 30%;
   padding-right: 1em;
