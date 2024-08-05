@@ -4,6 +4,11 @@ import { clusterAddressesElement } from './elements';
 
 export const getMultisigOwners = async (address: string, chainId: number) => {
   const walletProvider = modal.getWalletProvider();
+
+  if (walletProvider == null) {
+    throw new Error('wallet provider not found');
+  }
+
   const ethersProvider = new BrowserProvider(walletProvider);
   const gnosisContract = new Contract(address, contractABI, ethersProvider);
 
@@ -15,6 +20,10 @@ const contractABI = ['function getOwners() view returns (address[])'];
 modal.subscribeProvider(async ({ address, chainId, isConnected }) => {
   if (!isConnected) {
     resetOwners();
+    return;
+  }
+
+  if (!address || !chainId) {
     return;
   }
 

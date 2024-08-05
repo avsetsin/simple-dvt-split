@@ -1,5 +1,5 @@
 import { Contract, ContractTransactionResponse, EventLog } from 'ethers';
-import { processAsyncForm, validateAddress, validateSplitType } from './utils';
+import { printTx, processAsyncForm, validateAddress, validateSplitType } from './utils';
 import { contracts } from './constants';
 import { clusterFormWrapperElement, clusterTypeElement, splitAddressElement } from './elements';
 
@@ -18,6 +18,9 @@ const handleSubmitWrapper = (event: SubmitEvent) => {
 
     const factoryAddress = contracts.wrapperFactory[chainId][splitType];
     const wrapperFactoryContract = new Contract(factoryAddress, contractABI, signer);
+
+    await printTx(wrapperFactoryContract, 'createSplit', splitAddress);
+
     const txResponse: ContractTransactionResponse = await wrapperFactoryContract.createSplit(splitAddress);
     const txReceipt = await txResponse.wait();
     const logs = txReceipt?.logs as EventLog[];

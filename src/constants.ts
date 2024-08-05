@@ -13,4 +13,10 @@ export const contracts = {
       ssv: '0xB7f465f1bd6B2f8DAbA3FcA36c5F5E49E0812F37',
     },
   },
+  treasury: {
+    1: '0x3e40D73EB977Dc6a537aF587D48316feE66E9C8c',
+    17000: '0xE92329EC7ddB11D25e25b3c21eeBf11f15eB325d',
+  },
 };
+
+export const TREASURY_SHARE = 285714;

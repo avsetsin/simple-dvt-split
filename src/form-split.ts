@@ -1,7 +1,20 @@
 import { Contract, ContractTransactionResponse, EventLog, ZeroAddress } from 'ethers';
-import { distributeEvenly, processAsyncForm, splitAccounts, validateAddress } from './utils';
+import {
+  checkDuplicates,
+  calcDistributionForSuperCluster,
+  calcDistributionForRegularCluster,
+  processAsyncForm,
+  splitAccounts,
+  validateAddress,
+  printTx,
+} from './utils';
 import { contracts } from './constants';
-import { clusterFormSplitElement, clusterAddressesElement, splitAddressElement } from './elements';
+import {
+  clusterFormSplitElement,
+  clusterAddressesElement,
+  splitAddressElement,
+  clusterIsSuperClusterElement,
+} from './elements';
 import './gnosis-owners';
 
 const contractABI = [
@@ -22,12 +35,25 @@ const handleSubmitSplit = (event) => {
 
     const factoryAddress = contracts.splitFactory[chainId];
     const splitFactoryContract = new Contract(factoryAddress, contractABI, signer);
-    const percentageScale = await splitFactoryContract.PERCENTAGE_SCALE();
+    const percentageScale = Number(await splitFactoryContract.PERCENTAGE_SCALE());
 
-    const percentAllocations = distributeEvenly(Number(percentageScale), accounts.length);
+    const isSuperCluster = clusterIsSuperClusterElement.checked;
+
+    let percentAllocations: number[] = [];
+    let sortedAccounts: string[] = [];
+
+    if (isSuperCluster) {
+      [percentAllocations, sortedAccounts] = calcDistributionForSuperCluster(accounts, percentageScale, chainId);
+    } else {
+      [percentAllocations, sortedAccounts] = calcDistributionForRegularCluster(accounts, percentageScale);
+    }
+
+    checkDuplicates(sortedAccounts);
+
     const distributorFee = 0;
     const controller = ZeroAddress;
-    const sortedAccounts = accounts.sort((a: string, b: string) => Number(BigInt(a) - BigInt(b)));
+
+    await printTx(splitFactoryContract, 'createSplit', sortedAccounts, percentAllocations, distributorFee, controller);
 
     const txResponse: ContractTransactionResponse = await splitFactoryContract.createSplit(
       sortedAccounts,

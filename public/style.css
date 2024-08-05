@@ -83,6 +83,7 @@ h1 cite {
 .form-label {
   width: 30%;
   padding-right: 1em;
+  flex-shrink: 0;
 }
 
 .form-input {
@@ -96,6 +97,20 @@ h1 cite {
   box-sizing: border-box;
   padding: 4px 8px;
   width: 100%;
+}
+
+.form-checkbox-wrapper {
+  display: flex;
+}
+
+.form-checkbox-wrapper input[type='checkbox'] {
+  width: auto;
+  margin: 0;
+}
+
+.form-checkbox-wrapper .form-input-title {
+  flex-grow: 1;
+  margin-left: 6px;
 }
 
 .form-row button {

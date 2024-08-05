@@ -28,7 +28,7 @@
 			<form class="contract-form" id="cluster-form-split">
 				<div class="form-row">
 					<div class="form-label">
-						<label for="cluster-type">
+						<label for="cluster-addresses">
 							Participants addresses
 							<div class="desc">use a new line to separate the addresses</div>
 						</label>
@@ -36,6 +36,20 @@
 					<div class="form-input">
 						<textarea name="cluster-addresses" id="cluster-addresses" cols="30" rows="8"
 							placeholder=""></textarea>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-label">
+						<label for="cluster-is-super-cluster">
+							Super cluster
+						</label>
+					</div>
+					<div class="form-input">
+						<label for="cluster-is-super-cluster" class="form-checkbox-wrapper">
+							<input type="checkbox" name="cluster-is-super-cluster" id="cluster-is-super-cluster"
+								value="1">
+							<div class="form-input-title">Add Lido treasury address to participants</div>
+						</label>
 					</div>
 				</div>
 				<div class="error"></div>

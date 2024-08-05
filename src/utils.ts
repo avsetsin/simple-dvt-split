@@ -1,8 +1,9 @@
 import { BrowserProvider, Eip1193Provider, JsonRpcSigner, isAddress } from 'ethers';
 import { modal } from './modal';
-import { contracts } from './constants';
+import { contracts, TREASURY_SHARE } from './constants';
+import { Contract } from 'ethers';
 
-export const distributeEvenly = (total: number, participants: number) => {
+export const distributeEvenly = (total: number, participants: number): number[] => {
   if (participants <= 0) {
     return [];
   }
@@ -15,6 +16,35 @@ export const distributeEvenly = (total: number, participants: number) => {
   }
 
   return shares;
+};
+
+export const calcDistributionForRegularCluster = (accounts: string[], totalShares: number) => {
+  const percentAllocations = distributeEvenly(Number(totalShares), accounts.length);
+  const sortedAccounts = accounts.sort((a: string, b: string) => Number(BigInt(a) - BigInt(b)));
+
+  return [percentAllocations, sortedAccounts] as const;
+};
+
+export const calcDistributionForSuperCluster = (accounts: string[], totalShares: number, chainId: number) => {
+  const treasuryShares = TREASURY_SHARE;
+  const treasuryAddress = contracts.treasury[chainId];
+  const restShares = totalShares - treasuryShares;
+
+  if (!treasuryAddress) {
+    throw new Error('treasury address not found');
+  }
+
+  // distribute the rest of the shares evenly
+  const percentAllocations = distributeEvenly(Number(restShares), accounts.length);
+
+  const accountsWithTreasury = [treasuryAddress, ...accounts];
+  const sortedAccounts = accountsWithTreasury.sort((a: string, b: string) => Number(BigInt(a) - BigInt(b)));
+  const indexOfTreasury = sortedAccounts.indexOf(treasuryAddress);
+
+  // add special allocation for treasury
+  percentAllocations.splice(indexOfTreasury, 0, treasuryShares);
+
+  return [percentAllocations, sortedAccounts] as const;
 };
 
 export const processAsyncForm = async (
@@ -30,6 +60,11 @@ export const processAsyncForm = async (
   const resultElement = formElement.getElementsByClassName('result')[0] as HTMLDivElement;
 
   const walletProvider = modal.getWalletProvider();
+
+  if (walletProvider == null) {
+    throw new Error('wallet provider not found');
+  }
+
   const ethersProvider = new BrowserProvider(walletProvider);
   const signer = await ethersProvider.getSigner();
 
@@ -75,4 +110,20 @@ export const validateSplitType = (splitType: string, chainId: number) => {
   if (!allowedTypes.has(splitType)) {
     throw new Error(`unknown split type "${splitType}"`);
   }
+};
+
+export const checkDuplicates = (accounts: string[]) => {
+  const uniqueAccounts = new Set(accounts.map((address) => address.toLocaleLowerCase()));
+
+  if (uniqueAccounts.size !== accounts.length) {
+    throw new Error('duplicate accounts detected');
+  }
+};
+
+export const printTx = async (contract: Contract, method: string, ...args: any[]) => {
+  console.log('Tx to sign', {
+    contract: await contract.getAddress(),
+    method,
+    args,
+  });
 };
